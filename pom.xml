@@ -16,9 +16,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.cfets</groupId>
-    <artifactId>testmicro</artifactId>
+    <artifactId>microServiceTest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>testmicro</name>
+    <name>microServiceTest</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
