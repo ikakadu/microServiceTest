@@ -1,12 +1,12 @@
 server:
-  port: 8082
+  port: 8081
 
 eureka:
   client:
     #是否需要将自己注册到注册中心
-    register-with-eureka: false
+    register-with-eureka: true
     #是否从注册中心获取注册信息
-    fetch-registry: true
+    fetch-registry: false
     #客户端和服务端交互的地址
     service-url:
       defaultZone: http://127.0.0.1:6868/eureka/
@@ -16,4 +16,4 @@ eureka:
 
 spring:
   application:
-    name: microservice-order
+    name: microservice-item

@@ -11,5 +11,23 @@
 
     <artifactId>item</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <version>2.1.1.RELEASE</version>
+        </dependency>
+    </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.SR3</version>   <!--  Greenwich.SR3  是可用的版本-->
+                <type>pom</type>
+                <scope>import</scope> <!-- 必须是import    -->
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

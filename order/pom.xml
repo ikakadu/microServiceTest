@@ -23,7 +23,27 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <version>2.1.1.RELEASE</version>
+            <exclusions>  <!--由于我们引入了eureka server的依赖，导致破坏了之前Spring MVC默认，从而导致响应成立xml。解决方法：排除eureka server中的xml依赖-->
+                <exclusion> <!-- 解决响应变成xml的问题-->
+                    <groupId>com.fasterxml.jackson.dataformat</groupId>
+                    <artifactId>jackson-dataformat-xml</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.SR3</version>   <!--  Greenwich.SR3  是可用的版本-->
+                <type>pom</type>
+                <scope>import</scope> <!-- 必须是import    -->
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

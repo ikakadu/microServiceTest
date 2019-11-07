@@ -1,8 +1,11 @@
 server:
-  port: 6868
+  port: 6868    # eureka的默认端口是8761
 eureka:
   client:
+    #是否需要将自己注册到注册中心，因为本身就是一个注册中心，所以不需要将自己注册到注册中心
     register-with-eureka: false
+    #是否从注册中心获取注册信息
     fetch-registry: false
+    #客户端和服务端交互的地址
     service-url:
       defaultZone: http://127.0.0.1:${server.port}/eureka/
