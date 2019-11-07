@@ -26,6 +26,7 @@
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
             <version>2.1.1.RELEASE</version>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -33,9 +34,9 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Edgware.SR4</version>
+                <version>Greenwich.SR3</version>   <!--  Greenwich.SR3  是可用的版本-->
                 <type>pom</type>
-                <scope>runtime</scope>
+                <scope>import</scope> <!-- 必须是import    -->
             </dependency>
         </dependencies>
     </dependencyManagement>
