@@ -4,12 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -23,7 +22,7 @@ public class Testpoi {
         List<Map<String,String>> list = null;
         String cellData = null;
         String filePath = "C:\\Users\\james\\Desktop\\节假日记录.xlsx";
-        String columns[] = {"name","age","score"};
+        String columns[] = {"region","date","state"};
         wb = readExcel(filePath);
         if(wb != null){
             //用来存放表中数据
@@ -53,7 +52,15 @@ public class Testpoi {
         //遍历解析出来的list
         for (Map<String,String> map : list) {
             for (Entry<String,String> entry : map.entrySet()) {
-                System.out.print(entry.getKey()+":"+entry.getValue()+",");
+                if("date".equals(entry.getKey())){
+                    Calendar calendar = new GregorianCalendar(1900,0,-1);
+                    Date start = calendar.getTime();
+                    Date d = DateUtils.addDays(start,Integer.valueOf(entry.getValue()));
+                    System.out.print(entry.getKey()+":"+d+",");
+                }else{
+
+                    System.out.print(entry.getKey()+":"+entry.getValue()+",");
+                }
             }
             System.out.println();
         }
@@ -88,9 +95,11 @@ public class Testpoi {
         Object cellValue = null;
         if(cell!=null){
             //判断cell类型
+            CellType cellType = cell.getCellType();
             switch(cell.getCellType()){
                 case NUMERIC:{
-                    cellValue = String.valueOf(cell.getNumericCellValue());
+//                    cellValue = String.valueOf(cell.getNumericCellValue());
+                    cellValue = new BigDecimal(cell.getNumericCellValue()).stripTrailingZeros().toPlainString();
                     break;
                 }
                 case FORMULA:{
