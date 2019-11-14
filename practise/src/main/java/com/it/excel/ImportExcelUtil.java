@@ -45,12 +45,38 @@ public class ImportExcelUtil {
 				while(cellIterator.hasNext()) {
 					Cell cell = cellIterator.next();
 					cell.setCellType(CellType.STRING);//numberformat异常，不加
-					list.add(listobject);
+					listobject.add(cell.getStringCellValue());
 				}
+				list.add(listobject);
 			}
 		}
 		return list;
 	
+	}	public static List<List<String>> getBankStringListByExcel(Workbook book) throws Exception {
+		int sheetnum = book.getNumberOfSheets();  //workbook
+		Sheet sheet = null;
+		List<List<String>> list = new ArrayList<>();
+		for (int i = 0; i < sheetnum; i++) {
+			sheet = book.getSheetAt(i);              //遍历sheet页
+			Iterator<Row> iterator = sheet.iterator();//遍历行
+			while (iterator.hasNext()) {
+				Row row = iterator.next();
+				int rownum = row.getRowNum();
+				if (rownum == 0) {
+					continue;
+				}
+				Iterator<Cell> cellIterator = row.cellIterator();//由每一行遍历每个单元格的内容，
+				List<String> listobject = new ArrayList<>();
+				while(cellIterator.hasNext()) {
+					Cell cell = cellIterator.next();
+					cell.setCellType(CellType.STRING);//numberformat异常，不加
+					listobject.add(cell.getStringCellValue());
+				}
+				list.add(listobject);
+			}
+		}
+		return list;
+
 	}
 	/**
 	 * 根据文件后缀找到适应的版本

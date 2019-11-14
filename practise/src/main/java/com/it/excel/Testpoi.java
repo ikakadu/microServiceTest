@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -22,8 +23,32 @@ public class Testpoi {
         List<Map<String,String>> list = null;
         String cellData = null;
         String filePath = "C:\\Users\\james\\Desktop\\节假日记录.xlsx";
-        String columns[] = {"region","date","state"};
+        String columns[] = {"id","localDate","region","state"};
         wb = readExcel(filePath);
+        list = getMapList(wb, list, columns);
+        //遍历解析出来的list
+        for (Map<String,String> map : list) {
+            for (Entry<String,String> entry : map.entrySet()) {
+                if("localDate".equals(entry.getKey())){
+                    Calendar calendar = new GregorianCalendar(1900,0,-1);
+                    Date start = calendar.getTime();
+                    Date d = DateUtils.addDays(start,Integer.valueOf(entry.getValue()));
+                    String formatDate = DateFormatUtils.format(d, "yyyy/MM/dd");
+                    System.out.print(entry.getKey()+":"+formatDate+",");
+                }else{
+
+                    System.out.print(entry.getKey()+":"+entry.getValue()+",");
+                }
+            }
+            System.out.println();
+        }
+
+    }
+
+    private static List<Map<String, String>> getMapList(Workbook wb, List<Map<String, String>> list, String[] columns) {
+        Sheet sheet;
+        Row row;
+        String cellData;
         if(wb != null){
             //用来存放表中数据
             list = new ArrayList<Map<String,String>>();
@@ -49,23 +74,9 @@ public class Testpoi {
                 list.add(map);
             }
         }
-        //遍历解析出来的list
-        for (Map<String,String> map : list) {
-            for (Entry<String,String> entry : map.entrySet()) {
-                if("date".equals(entry.getKey())){
-                    Calendar calendar = new GregorianCalendar(1900,0,-1);
-                    Date start = calendar.getTime();
-                    Date d = DateUtils.addDays(start,Integer.valueOf(entry.getValue()));
-                    System.out.print(entry.getKey()+":"+d+",");
-                }else{
-
-                    System.out.print(entry.getKey()+":"+entry.getValue()+",");
-                }
-            }
-            System.out.println();
-        }
-
+        return list;
     }
+
     //读取excel
     public static Workbook readExcel(String filePath){
         Workbook wb = null;
