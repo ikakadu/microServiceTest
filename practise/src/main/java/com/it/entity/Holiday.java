@@ -1,8 +1,10 @@
 package com.it.entity;
 
+import java.util.Date;
+
 public class Holiday {
     private int id;
-    private String localDate;
+    private Date localDate;
     private String region;
     private String state;
 
@@ -32,11 +34,11 @@ public class Holiday {
         this.region = region;
     }
 
-    public String getLocalDate() {
+    public Date getLocalDate() {
         return localDate;
     }
 
-    public void setLocalDate(String localDate) {
+    public void setLocalDate(Date localDate) {
         this.localDate = localDate;
     }
 

@@ -4,28 +4,27 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
+import com.it.entity.Holiday;
+import com.it.jdbc.JDBCTemplate;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public class ImportExcelTest {
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		/**
 		 * 测试导入excel
 		 */
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		InputStream in=new FileInputStream("C:\\Users\\james\\Desktop\\节假日记录.xlsx");//excel文件
+		InputStream in = new FileInputStream("C:\\Users\\james\\Desktop\\节假日记录.xlsx");//excel文件
 		Workbook book = ImportExcelUtil.getWorkBook(in);
 //		List<List<Object>> list = ImportExcelUtil.getBankListByExcel(book);
 		List<List<String>> list = ImportExcelUtil.getBankStringListByExcel(book);
 		in.close();
-		if(list!=null&&list.size()>0) {
+		/*if(list!=null&&list.size()>0) {
 			for(int i=0;i<list.size();i++) {
 //				List<Object> lo=list.get(i);
 				List<String> lo=list.get(i);
@@ -36,7 +35,7 @@ public class ImportExcelTest {
 						Calendar calendar = new GregorianCalendar(1900,0,-1);
 						Date start = calendar.getTime();
 						Date d = DateUtils.addDays(start,Integer.valueOf( lo.get(k)));
-						String formatDate = DateFormatUtils.format(d, "yyyy-MM-dd");
+						String formatDate = DateFormatUtils.format(d, "yyyy/MM/dd");
 						System.out.print(formatDate+" ");
 					}else {
 						System.out.print(lo.get(k)+" ");
@@ -44,8 +43,46 @@ public class ImportExcelTest {
 				}
 				System.out.println();
 			}
-		}
+		}*/
 
+		//将数据插入数据库
+		List<Holiday> holidays = new ArrayList<>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				List<String> lo = list.get(i);
+				Holiday holiday = new Holiday();
+
+				holiday.setId(Integer.valueOf(lo.get(0)));
+
+				Calendar calendar = new GregorianCalendar(1900, 0, -1);
+				Date start = calendar.getTime();
+				Date d = DateUtils.addDays(start, Integer.valueOf(lo.get(1)));
+//				String formatDate = DateFormatUtils.format(d, "yyyy/MM/dd");
+
+				holiday.setLocalDate(d);
+				holiday.setRegion(lo.get(2));
+				holiday.setState(lo.get(3));
+				holidays.add(holiday);
+			}
+		}
+		//准备插入数据库
+		List<Object> params = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("INSERT INTO HOLIDAY (REGION,LOCAL_DATE,STATE) VALUES  ");
+		int i=0;
+		for(Holiday h:holidays){
+			if(i==0){
+				sql.append("( ?,?,? )");
+			}else {
+				sql.append(",( ?,?,? )");
+			}
+			params.add(h.getRegion());
+			params.add(h.getLocalDate());
+			params.add(h.getState());
+			i++;
+		}
+		int update = JDBCTemplate.getInstance().update(sql.toString(), params.toArray());
+		System.out.println("插入行数："+update);
 	}
 
 }

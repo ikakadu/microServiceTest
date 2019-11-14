@@ -22,7 +22,8 @@ public class Testpoi {
         Row row = null;
         List<Map<String,String>> list = null;
         String cellData = null;
-        String filePath = "C:\\Users\\james\\Desktop\\节假日记录.xlsx";
+//        String filePath = "C:\\Users\\james\\Desktop\\节假日记录.xlsx";
+        String filePath = "src\\main\\resources\\节假日记录.xlsx";
         String columns[] = {"id","localDate","region","state"};
         wb = readExcel(filePath);
         list = getMapList(wb, list, columns);
@@ -36,7 +37,6 @@ public class Testpoi {
                     String formatDate = DateFormatUtils.format(d, "yyyy/MM/dd");
                     System.out.print(entry.getKey()+":"+formatDate+",");
                 }else{
-
                     System.out.print(entry.getKey()+":"+entry.getValue()+",");
                 }
             }
