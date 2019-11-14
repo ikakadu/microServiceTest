@@ -55,7 +55,7 @@ public class ImportExcelTest {
 
 				holiday.setId(Integer.valueOf(lo.get(0)));
 
-				Calendar calendar = new GregorianCalendar(1900, 0, -1);
+				Calendar calendar = new GregorianCalendar(1900, 0, 0);
 				Date start = calendar.getTime();
 				Date d = DateUtils.addDays(start, Integer.valueOf(lo.get(1)));
 //				String formatDate = DateFormatUtils.format(d, "yyyy/MM/dd");
@@ -69,20 +69,23 @@ public class ImportExcelTest {
 		//准备插入数据库
 		List<Object> params = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO HOLIDAY (REGION,LOCAL_DATE,STATE) VALUES  ");
+
+		StringBuffer insertSql = new StringBuffer("INSERT INTO HOLIDAY (REGION,LOCAL_DATE,STATE) VALUES  ");
 		int i=0;
 		for(Holiday h:holidays){
 			if(i==0){
-				sql.append("( ?,?,? )");
+				insertSql.append("( ?,?,? )");
 			}else {
-				sql.append(",( ?,?,? )");
+				insertSql.append(",( ?,?,? )");
 			}
 			params.add(h.getRegion());
 			params.add(h.getLocalDate());
 			params.add(h.getState());
 			i++;
 		}
-		int update = JDBCTemplate.getInstance().update(sql.toString(), params.toArray());
+		insertSql.append("  ON DUPLICATE KEY UPDATE REGION=VALUES(REGION),LOCAL_DATE=VALUES(LOCAL_DATE),STATE=VALUES(STATE) ");//如果记录已经存在，则覆盖
+
+		int update = JDBCTemplate.getInstance().update(insertSql.toString(), params.toArray());
 		System.out.println("插入行数："+update);
 	}
 
