@@ -19,7 +19,8 @@ public class ImportExcelTest {
 		 * 测试导入excel
 		 */
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		InputStream in = new FileInputStream("C:\\Users\\james\\Desktop\\节假日记录.xlsx");//excel文件
+//		InputStream in = new FileInputStream("C:\\Users\\james\\Desktop\\节假日记录.xlsx");//excel文件
+		InputStream in = new FileInputStream("practise\\src\\main\\resources\\节假日记录.xlsx");//excel文件
 		Workbook book = ImportExcelUtil.getWorkBook(in);
 //		List<List<Object>> list = ImportExcelUtil.getBankListByExcel(book);
 		List<List<String>> list = ImportExcelUtil.getBankStringListByExcel(book);

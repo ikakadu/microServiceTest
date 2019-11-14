@@ -23,7 +23,7 @@ public class Testpoi {
         List<Map<String,String>> list = null;
         String cellData = null;
 //        String filePath = "C:\\Users\\james\\Desktop\\节假日记录.xlsx";
-        String filePath = "src\\main\\resources\\节假日记录.xlsx";
+        String filePath = "practise\\src\\main\\resources\\节假日记录.xlsx";
         String columns[] = {"id","localDate","region","state"};
         wb = readExcel(filePath);
         list = getMapList(wb, list, columns);
