@@ -1,3 +1,4 @@
+/*
 package com.it.testFeign;
 
 import com.it.entity.Item;
@@ -15,3 +16,4 @@ public class OrderFeignClient {
         return null;
     }
 }
+*/

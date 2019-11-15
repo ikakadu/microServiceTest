@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>excel文件上传</h2>
+
+<form action="localhost:8080/fileUpload" enctype="multipart/form-data" method="post">
+    选择文件:<input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
