@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
+        <module>item</module>
         <module>practise</module>
-<!--        <module>dealdeal</module>-->
         <module>order</module>
         <module>eureka</module>
     </modules>

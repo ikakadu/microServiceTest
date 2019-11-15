@@ -10,17 +10,27 @@ import com.it.entity.Holiday;
 import com.it.jdbc.JDBCTemplate;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public class ImportExcelTest {
 
 	public static void main(String[] args) throws Exception {
+		String filePath = "practise\\src\\main\\resources\\节假日记录.xlsx";
+		readExcel(filePath);
+	}
+
+	public static String readExcel(String filePath)throws Exception{
 		/**
 		 * 测试导入excel
 		 */
+		if(StringUtils.isBlank(filePath)){
+			System.out.println("文件路径不存在！");
+			return null;
+		}
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 //		InputStream in = new FileInputStream("C:\\Users\\james\\Desktop\\节假日记录.xlsx");//excel文件
-		InputStream in = new FileInputStream("practise\\src\\main\\resources\\节假日记录.xlsx");//excel文件
+		InputStream in = new FileInputStream(filePath);//excel文件
 		Workbook book = ImportExcelUtil.getWorkBook(in);
 //		List<List<Object>> list = ImportExcelUtil.getBankListByExcel(book);
 		List<List<String>> list = ImportExcelUtil.getBankStringListByExcel(book);
@@ -86,7 +96,9 @@ public class ImportExcelTest {
 		insertSql.append("  ON DUPLICATE KEY UPDATE REGION=VALUES(REGION),LOCAL_DATE=VALUES(LOCAL_DATE),STATE=VALUES(STATE) ");//如果记录已经存在，则覆盖
 
 		int update = JDBCTemplate.getInstance().update(insertSql.toString(), params.toArray());
-		System.out.println("插入行数："+update);
+		System.out.println("读excel文件结束，插入行数："+update);
+		return "sucess!";
 	}
+
 
 }
