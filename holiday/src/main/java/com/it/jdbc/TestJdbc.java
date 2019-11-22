@@ -3,6 +3,8 @@ package com.it.jdbc;
 import com.alibaba.fastjson.JSON;
 import com.it.entity.Holiday;
 //import org.junit.jupiter.api.Test;
+import com.it.entity.Item;
+import com.it.entity.Order;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +74,33 @@ public class TestJdbc {
         }catch (Exception e){
             System.out.println(e);
         }
+        System.out.println(list);
+    }
+
+    @Test
+    public void orderTest(){
+        List<Object> args = new ArrayList<Object>();
+        List<Order> list = new ArrayList<Order>();
+        String sql = "SELECT ordr.order_id o_order_id,ordr.user_id,ordr.create_time ,item.item_id,item.title,item.price   from  my_order  ordr left JOIN item on ordr.order_id = item.order_id; ";
+        list = JDBCTemplate.getInstance().query(sql, new RowMapper<Order>() {
+            @Override
+            public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Order order = new Order();
+                order.setOrderId(rs.getInt("o_order_id"));
+                order.setUserId(rs.getString("user_id"));
+                order.setCreateDate(rs.getTimestamp("create_time"));
+
+                List<Item> list = new ArrayList<Item>();
+                Item item = new Item();
+                item.setId(rs.getInt("item_id"));
+                item.setTitle(rs.getString("title"));
+                item.setPrice(rs.getBigDecimal("price").toPlainString());
+                list.add(item);
+                order.setItemList(list);
+                return order;
+            }
+        }, args.toArray());
+
         System.out.println(list);
     }
 }
