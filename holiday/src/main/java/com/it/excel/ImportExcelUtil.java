@@ -23,10 +23,10 @@ public class ImportExcelUtil {
     * @throws Exception
     */
 	public static List<List<Object>> getBankListByExcel(Workbook book) throws Exception {
-		int sheetnum = book.getNumberOfSheets();  //workbook
+		int sheetNum = book.getNumberOfSheets();  //workbook
 		Sheet sheet = null;
 		List<List<Object>> list = new ArrayList<>();
-		for (int i = 0; i < sheetnum; i++) {
+		for (int i = 0; i < sheetNum; i++) {
 			sheet = book.getSheetAt(i);              //遍历sheet页
 			Iterator<Row> iterator = sheet.iterator();//遍历行
 			while (iterator.hasNext()) {
@@ -48,10 +48,10 @@ public class ImportExcelUtil {
 		return list;
 	
 	}	public static List<List<String>> getBankStringListByExcel(Workbook book) throws Exception {
-		int sheetnum = book.getNumberOfSheets();  //workbook
+		int sheetNum = book.getNumberOfSheets();  //workbook
 		Sheet sheet = null;
 		List<List<String>> list = new ArrayList<>();
-		for (int i = 0; i < sheetnum; i++) {
+		for (int i = 0; i < sheetNum; i++) {
 			sheet = book.getSheetAt(i);              //遍历sheet页
 			Iterator<Row> iterator = sheet.iterator();//遍历行
 			while (iterator.hasNext()) {

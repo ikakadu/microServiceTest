@@ -92,7 +92,7 @@ public class ImportExcelTest {
 			params.add(h.getState());
 			i++;
 		}
-		insertSql.append("  ON DUPLICATE KEY UPDATE REGION=VALUES(REGION),LOCAL_DATE=VALUES(LOCAL_DATE),STATE=VALUES(STATE) ");//如果记录已经存在，则覆盖
+		insertSql.append("  ON DUPLICATE KEY UPDATE REGION=VALUES(REGION),LOCAL_DATE=VALUES(LOCAL_DATE) ");//如果记录已经存在，则覆盖
 
 		int update = JDBCTemplate.getInstance().update(insertSql.toString(), params.toArray());
 		System.out.println("读excel文件结束，插入行数："+update);

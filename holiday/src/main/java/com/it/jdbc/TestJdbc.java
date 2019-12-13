@@ -83,20 +83,21 @@ public class TestJdbc {
         List<Order> list = new ArrayList<Order>();
         String sql = "SELECT ordr.order_id o_order_id,ordr.user_id,ordr.create_time ,item.item_id,item.title,item.price   from  my_order  ordr left JOIN item on ordr.order_id = item.order_id; ";
         list = JDBCTemplate.getInstance().query(sql, new RowMapper<Order>() {
+                List<Item> itemList = new ArrayList<Item>();
             @Override
             public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Order order = new Order();
+
                 order.setOrderId(rs.getInt("o_order_id"));
                 order.setUserId(rs.getString("user_id"));
                 order.setCreateDate(rs.getTimestamp("create_time"));
 
-                List<Item> list = new ArrayList<Item>();
                 Item item = new Item();
                 item.setId(rs.getInt("item_id"));
                 item.setTitle(rs.getString("title"));
                 item.setPrice(rs.getBigDecimal("price").toPlainString());
-                list.add(item);
-                order.setItemList(list);
+                itemList.add(item);
+                order.setItemList(itemList);
                 return order;
             }
         }, args.toArray());
